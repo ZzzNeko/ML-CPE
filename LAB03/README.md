@@ -103,22 +103,6 @@ See all plots in the [`images/`](images/) folder, or run the notebook for an int
 
 ---
 
-## Setup & Usage
-
-```bash
-git clone <YOUR_REPO_URL>
-cd abalone-ml
-
-python -m venv .venv
-source .venv/bin/activate   # Windows: .venv\Scripts\activate
-
-pip install -r requirements.txt
-
-jupyter notebook notebooks/Lab3_Regression_Classification.ipynb
-```
-
----
-
 ## Libraries Used
 
 - `pandas`, `numpy` — data handling
