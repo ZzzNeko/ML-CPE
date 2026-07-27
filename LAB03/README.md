@@ -46,8 +46,6 @@ abalone-ml/
 ├── notebooks/
 │   └── Lab3_Regression_Classification.ipynb  # main notebook (fully executed, with output)
 ├── images/                                   # exported plots/results
-├── requirements.txt
-├── .gitignore
 └── README.md
 ```
 
