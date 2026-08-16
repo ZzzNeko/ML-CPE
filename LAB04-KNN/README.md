@@ -1,4 +1,4 @@
-# ML-04-KNN — Pokemon Type Classification & Clustering
+# LAB04-KNN — Pokemon Type Classification & Clustering
 
 Two mini-projects built around the same Pokemon dataset, demonstrating K-Nearest Neighbors (KNN) for classification and K-Means for clustering, each implemented both from scratch in TensorFlow and cross-checked against scikit-learn.
 
@@ -14,7 +14,7 @@ Place the dataset at `mini-proj/data-pokemon/` (containing `pokemon.csv` and the
 ## Structure
 
 ```text
-ML-04-KNN/
+LAB04-KNN/
 │
 ├── mini-proj/
 │   ├── data-pokemon/
