@@ -1,0 +1,5 @@
+﻿cluster,Type_Bug,Type_Dark,Type_Dragon,Type_Electric,Type_Fairy,Type_Fighting,Type_Fire,Type_Flying,Type_Ghost,Type_Grass,Type_Ground,Type_Ice,Type_Normal,Type_Poison,Type_Psychic,Type_Rock,Type_Steel,Type_Water,Has_Evolution,member count
+0,0.0,0.0,0.0,0.0,0.0,0.0,0.1,0.0,1.0,0.1,0.1,0.0,0.0,0.1,0.0,0.0,0.1,0.0,0.0,43
+1,0.1,0.0,0.0,0.0,0.0,0.0,0.0,0.1,0.0,0.1,0.1,0.0,0.0,0.3,0.0,0.1,0.0,0.7,0.1,178
+2,0.1,0.0,0.1,0.1,0.1,0.1,0.1,0.2,0.0,0.1,0.1,0.0,0.2,0.0,0.1,0.1,0.0,0.0,0.0,500
+3,0.1,0.5,0.1,0.0,0.0,0.1,0.0,0.1,0.0,0.1,0.1,0.0,0.0,0.0,0.1,0.1,0.5,0.1,0.0,88
