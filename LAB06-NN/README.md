@@ -10,11 +10,6 @@ from images.
 **Pokemon Classification Dataset** (Kaggle):
 https://www.kaggle.com/datasets/lantian773030/pokemonclassification
 
-The dataset is **not included in this repository** because it's too large
-to commit (~800 MB, ~7,000 images across 149 classes). Download it yourself
-and place it next to `mini-proj/`, so the folder layout matches the tree
-below:
-
 1. Download and unzip the dataset from the Kaggle link above (requires a
    free Kaggle account).
 2. Copy its `PokemonData/` folder to the root of this repo, so you end up
@@ -44,7 +39,7 @@ results.
 ```text
 LAB06-NN/
 │
-├── PokemonData/                     # dataset (download separately, see above)
+├── PokemonData/                   
 │   ├── Abra/
 │   │   ├── 2eb2a528f9a247358452b3c740df69a0.jpg
 │   │   └── ...
