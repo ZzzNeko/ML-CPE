@@ -62,24 +62,25 @@ callbacks:
 - `EarlyStopping(monitor="val_loss", patience=5, restore_best_weights=True)`
 - `ReduceLROnPlateau(monitor="val_loss", factor=0.5, patience=3, min_lr=1e-5)`
 
-Default run: 10 epochs, batch size 32 (`EPOCHS` / `BATCH_SIZE` in
-`main.py`).
+Configured for up to 50 epochs, batch size 32 (`EPOCHS` / `BATCH_SIZE` in
+`main.py`); `EarlyStopping` usually stops training well before that.
 
 ## Results
 
-Latest run (10 epochs, 150 classes):
+Latest run (stopped at epoch 43 via `EarlyStopping`, 150 classes):
 
 | Metric | Value |
 |---|---|
-| Best validation accuracy | 26.0% (epoch 9) |
-| Test accuracy | 24.4% |
+| Best validation accuracy | 47.1% (epoch 42) |
+| Test accuracy | 46.04% |
 
-150 look-alike classes from only 10 epochs is a hard problem for a CNN
-this small — accuracy is still climbing steadily at epoch 10 with no sign
-of overfitting yet (train and val curves track each other closely), so
-more epochs is the first thing to try before changing the architecture.
-The learning rate never drops in this run because `ReduceLROnPlateau`
-needs 3 flat epochs to fire and training stopped before that happened.
+150 look-alike classes is still a hard problem for a CNN this small, but
+accuracy roughly doubled compared to the earlier 10-epoch run. Train and
+val accuracy track each other closely throughout (see the training
+history plot below), so the model isn't overfitting — it's just leveling
+off. `ReduceLROnPlateau` fired several times over the run, each visible
+as a step down in the learning rate curve, and `EarlyStopping` (patience
+5) ended training once val loss stopped improving.
 
 ![Training History](outputs/training_history.png)
 
@@ -105,7 +106,8 @@ cells show which Pokemon get confused with which.
 
 ## Next steps
 
-- Train for more epochs — the accuracy curve hadn't plateaued yet.
+- Val accuracy has plateaued around 47% under `EarlyStopping` — the
+  small CNN itself is now the bottleneck, not epoch count.
 - More data per class (raise or drop `MAX_PER_CLASS`) — 150 visually
   similar classes benefit a lot from more examples each.
 - Try transfer learning (e.g. `MobileNetV2` / `EfficientNet` as a frozen
