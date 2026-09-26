@@ -25,12 +25,12 @@ def preprocess_image(image, img_size=100):
 def to_features(images):
     """(n, h, w) uint8 -> (n, h*w) float32 in 0-1."""
 
-    features = images.reshape(len(images), -1).astype(np.float32)
+    features = images.reshape(len(images), -1).astype(np.float32) #จาก 100*100 เป็น 10000 เเถวเดียว
+
     # Normalize pixel values from 0-255 to 0-1
     features /= 255.0
 
     return features
-
 
 def preprocess_images(images, img_size=100):
     """Raw image list -> feature matrix (for small datasets)."""
