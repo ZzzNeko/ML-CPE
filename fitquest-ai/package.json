@@ -1,0 +1,41 @@
+{
+  "name": "fitness-ai-game",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "oxlint",
+    "preview": "vite preview",
+    "check": "tsc -b && npm run lint",
+    "verify:deployment": "node scripts/verify-deployment.mjs",
+    "verify:pose-rhythm": "node --experimental-strip-types scripts/verify-pose-rhythm.mjs",
+    "verify:pose-runtime": "node --experimental-strip-types scripts/verify-pose-runtime.mjs",
+    "verify:song-flow": "node --experimental-strip-types scripts/verify-song-flow.mjs",
+    "verify:youtube-beats": "node --experimental-strip-types scripts/verify-youtube-beats.mjs",
+    "verify:player-progress": "node --experimental-strip-types scripts/verify-player-progress.mjs",
+    "validate": "npm run check && npm run verify:pose-rhythm && npm run verify:pose-runtime && npm run verify:song-flow && npm run verify:youtube-beats && npm run verify:player-progress && npm run verify-cnn-parity && npm run build && npm run verify:deployment",
+    "verify-cnn-parity": "node --experimental-strip-types scripts/verify-cnn-parity.mjs"
+  },
+  "dependencies": {
+    "@fontsource/caveat": "^5.3.0",
+    "@fontsource/nunito": "^5.3.0",
+    "@mediapipe/tasks-vision": "^1.0.1",
+    "phaser": "^3.90.0",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.3.3",
+    "@tailwindcss/vite": "^4.3.3",
+    "@types/node": "^24.13.3",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.7",
+    "@vitejs/plugin-react": "^6.1.1",
+    "oxlint": "^1.81.0",
+    "tailwindcss": "^4.3.3",
+    "typescript": "~6.0.2",
+    "vite": "^8.3.0"
+  }
+}

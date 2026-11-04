@@ -1,0 +1,250 @@
+{
+ "classes": [
+  "arm_raise",
+  "jumping_jack",
+  "knee_left",
+  "knee_right",
+  "left_arm_up",
+  "right_arm_up",
+  "squat",
+  "standing"
+ ],
+ "window": 30,
+ "seed": 42,
+ "windows": {
+  "train": 3387,
+  "val": 1195,
+  "test": 1075
+ },
+ "training": {
+  "learning_rate": 0.001,
+  "noise_std": 0.03,
+  "batch_size": 64,
+  "epochs_requested": 60,
+  "epochs_completed": 12,
+  "pose_augmentation": {
+   "enabled": true,
+   "factor": 4,
+   "min_class_windows": 200,
+   "generated_train_windows": {
+    "arm_raise": 0,
+    "jumping_jack": 0,
+    "knee_left": 20,
+    "knee_right": 20,
+    "left_arm_up": 20,
+    "right_arm_up": 20,
+    "squat": 0,
+    "standing": 20
+   },
+   "targeted_mirror_factor": 4,
+   "targeted_mirror_min_class_windows": 200,
+   "targeted_mirror_generated_train_windows": {
+    "arm_raise": 0,
+    "jumping_jack": 0,
+    "knee_left": 20,
+    "knee_right": 20,
+    "left_arm_up": 20,
+    "right_arm_up": 20,
+    "squat": 0,
+    "standing": 0
+   }
+  },
+  "train_only_prefixes": [],
+  "split_unit": "video_and_group",
+  "split_groups": {
+   "train": 156,
+   "val": 50,
+   "test": 51
+  }
+ },
+ "validation": {
+  "accuracy": 0.7330543933054393,
+  "f1_macro": 0.3591652540965353,
+  "f1_per_class": {
+   "arm_raise": 0.6622516556291391,
+   "jumping_jack": 0.7923954372623574,
+   "knee_left": 0.0,
+   "knee_right": 0.0,
+   "left_arm_up": 0.7003444316877153,
+   "right_arm_up": 0.0
+  },
+  "confusion_matrix": [
+   [
+    50,
+    0,
+    0,
+    0,
+    0,
+    0,
+    4,
+    1
+   ],
+   [
+    19,
+    521,
+    0,
+    23,
+    0,
+    0,
+    184,
+    15
+   ],
+   [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   [
+    27,
+    32,
+    0,
+    0,
+    2,
+    0,
+    305,
+    12
+   ],
+   [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ]
+  ]
+ },
+ "test": {
+  "accuracy": 0.6986046511627907,
+  "f1_macro": 0.6785088163005422,
+  "f1_per_class": {
+   "arm_raise": 0.5416666666666666,
+   "jumping_jack": 0.7866108786610879,
+   "knee_left": 1.0,
+   "knee_right": 1.0,
+   "left_arm_up": 0.75,
+   "right_arm_up": 0.2564102564102564,
+   "squat": 0.6723300970873787,
+   "standing": 0.42105263157894735
+  },
+  "confusion_matrix": [
+   [
+    78,
+    1,
+    0,
+    0,
+    0,
+    5,
+    2,
+    1
+   ],
+   [
+    21,
+    376,
+    0,
+    0,
+    1,
+    24,
+    135,
+    1
+   ],
+   [
+    0,
+    0,
+    4,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   [
+    0,
+    0,
+    0,
+    4,
+    0,
+    0,
+    0,
+    0
+   ],
+   [
+    0,
+    0,
+    0,
+    0,
+    3,
+    0,
+    0,
+    0
+   ],
+   [
+    0,
+    0,
+    0,
+    0,
+    0,
+    5,
+    0,
+    0
+   ],
+   [
+    102,
+    21,
+    0,
+    0,
+    1,
+    0,
+    277,
+    9
+   ],
+   [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    4
+   ]
+  ]
+ }
+}

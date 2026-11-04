@@ -1,0 +1,34 @@
+{
+  "dataset": "combined-real-8class",
+  "classes": [
+    "arm_raise",
+    "jumping_jack",
+    "knee_left",
+    "knee_right",
+    "left_arm_up",
+    "right_arm_up",
+    "squat",
+    "standing"
+  ],
+  "synthetic_data_included": false,
+  "split_unit": "participant group for Self-Data; video for other sources",
+  "counts": {
+    "self_data_frames": {
+      "arm_raise": 189,
+      "knee_left": 126,
+      "jumping_jack": 137,
+      "squat": 125,
+      "standing": 123,
+      "knee_right": 121,
+      "left_arm_up": 121,
+      "right_arm_up": 126
+    },
+    "physical_frames": {
+      "jumping_jack": 18897,
+      "squat": 11817
+    },
+    "arm_raise_frames": {
+      "arm_raise": 4031
+    }
+  }
+}

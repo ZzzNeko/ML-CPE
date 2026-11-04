@@ -1,0 +1,39 @@
+name: Train combined real 8-class CNN
+on:
+  workflow_dispatch:
+    inputs:
+      epochs:
+        description: Training epochs (early stopping is enabled)
+        required: false
+        default: "60"
+jobs:
+  train:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install ML dependencies
+        run: python -m pip install tensorflow==2.16.1 mediapipe==0.10.14 opencv-python-headless pandas numpy scikit-learn matplotlib
+      - name: Test pose augmentation
+        run: python -m unittest ml/scripts/test_pose_augmentation.py ml/scripts/test_mirror_augmentation.py
+      - name: Download MediaPipe Pose Landmarker
+        run: curl -L --fail https://storage.googleapis.com/mediapipe-models/pose_landmarker/pose_landmarker_lite/float16/1/pose_landmarker_lite.task -o ml/models/pose_landmarker_lite.task
+      - name: Build real-only combined dataset
+        run: python ml/scripts/build_real_8class_dataset.py --pose-model ml/models/pose_landmarker_lite.task
+      - name: Train CNN and generate metrics/graphs
+        run: python ml/scripts/train_cnn.py --kaggle ml/data/combined-real-8class --epochs ${{ github.event.inputs.epochs || 60 }} --model-dir ml/models/experiments/combined-real-8class --web-dir public/assets/models/pose-8class
+      - name: Generate readable report
+        run: python ml/scripts/render_training_report.py --metrics ml/models/experiments/combined-real-8class/metrics.json --dataset ml/data/combined-real-8class/dataset_info.json --output ml/models/experiments/combined-real-8class/REPORT.md
+      - name: Upload model and report artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: fitquest-combined-real-8class
+          path: |
+            ml/models/experiments/combined-real-8class/
+            public/assets/models/pose-8class/model.json
+            ml/data/combined-real-8class/dataset_info.json
+          retention-days: 30

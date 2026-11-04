@@ -1,0 +1,28 @@
+name: Pose Rhythm validation
+
+on:
+  push:
+    branches:
+      - main
+      - fix/pose-rhythm-early-match
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run check
+      - run: npm run verify:pose-rhythm
+      - run: npm run verify:pose-runtime
+      - run: npm run verify:song-flow
+      - run: npm run verify:player-progress
+      - run: npm run verify-cnn-parity
+      - run: npm run build

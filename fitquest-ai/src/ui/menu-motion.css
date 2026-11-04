@@ -1,0 +1,209 @@
+/*
+ * FitQuest main menu — pixel-aligned to the 1672×941 reference artwork.
+ *
+ * Every element is positioned on a 16:9 "stage" using the reference's own pixel
+ * coordinates (--x/--y/--w/--h), then scaled with the stage via container units.
+ * --p = 1 reference pixel, so fonts, borders and gaps all scale with the stage.
+ */
+.fq-menu-layout {
+  position: absolute; inset: 0; z-index: 20; overflow: hidden; color: #fff;
+  background: #2a1d82 url('/assets/fitquest-menu-bg.svg') center / cover no-repeat;
+  font-family: Nunito, Inter, "Noto Sans Thai", ui-sans-serif, system-ui, sans-serif;
+}
+.fq-stage {
+  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+  width: min(100%, calc(100svh * 1672 / 941)); aspect-ratio: 1672 / 941;
+  container-type: size; overflow: hidden; --p: .059809cqw;
+}
+.fq-abs {
+  position: absolute; box-sizing: border-box;
+  left: calc(var(--x) / 1672 * 100%); top: calc(var(--y) / 941 * 100%);
+  width: calc(var(--w) * var(--wk, 1) / 1672 * 100%); height: calc(var(--h) / 941 * 100%);
+}
+.fq-stage button { font-family: inherit; color: inherit; }
+.fq-stage button:focus-visible { outline: calc(3 * var(--p)) solid #fff; outline-offset: calc(4 * var(--p)); }
+
+/* ── Character ───────────────────────────────────────────── */
+.fq-hero {
+  position: absolute; z-index: 2; pointer-events: none; user-select: none;
+  left: calc(482 / 1672 * 100%); top: calc(52 / 941 * 100%); width: calc(1188 / 1672 * 100%); height: auto;
+  filter: drop-shadow(0 calc(6 * var(--p)) calc(18 * var(--p)) rgba(40, 20, 120, .35));
+  transform-origin: 56% 15.9%; transform: rotate(4deg);
+  animation: fq-hero-bob 5.5s ease-in-out infinite;
+}
+@keyframes fq-hero-bob { 0%, 100% { transform: rotate(4deg) translateY(0); } 50% { transform: rotate(4deg) translateY(calc(-5 * var(--p))); } }
+
+/* ── Logo ────────────────────────────────────────────────── */
+.fq-logo { position: absolute; z-index: 4; display: block; pointer-events: none; left: calc(60 / 1672 * 100%); top: calc(-26 / 941 * 100%); width: calc(626 / 1672 * 100%); height: auto; }
+
+/* ── Navigation ──────────────────────────────────────────── */
+.fq-nav {
+  --wk: 1.065; z-index: 5; display: flex; align-items: center; text-align: left; cursor: pointer;
+  padding: 0 0 0 calc(45 * var(--p)); gap: calc(51 * var(--p));
+  border: calc(2 * var(--p)) solid rgba(196, 190, 255, .6);
+  border-radius: calc(30 * var(--p)) calc(42 * var(--p)) calc(42 * var(--p)) calc(30 * var(--p)) / calc(30 * var(--p)) calc(40 * var(--p)) calc(40 * var(--p)) calc(30 * var(--p));
+  position: absolute; overflow: hidden;
+  background: linear-gradient(100deg, rgba(56, 66, 190, .50) 0%, rgba(92, 84, 200, .38) 58%, rgba(146, 120, 226, .30) 100%);
+  box-shadow: inset 0 calc(2 * var(--p)) 0 rgba(255, 255, 255, .34), inset calc(-3 * var(--p)) 0 calc(14 * var(--p)) rgba(220, 210, 255, .16), 0 calc(8 * var(--p)) calc(18 * var(--p)) rgba(28, 18, 104, .20);
+  backdrop-filter: blur(calc(11 * var(--p))) saturate(140%); -webkit-backdrop-filter: blur(calc(11 * var(--p))) saturate(140%);
+  /* slab tilted away from the viewer: left edge nearest, right edge receding, like the artwork */
+  --tx: 0px; --ry: 7deg; --rz: -.7deg; --lift: 0px; --sk: -7deg;
+  transform-origin: left center;
+  transform: perspective(1100px) translate3d(var(--tx), var(--lift), 0) rotateY(var(--ry)) rotateZ(var(--rz)) skewX(var(--sk));
+  transition: transform .34s cubic-bezier(.2, 1.25, .35, 1), filter .22s ease, border-color .22s ease, background .22s ease, box-shadow .22s ease;
+  will-change: transform;
+}
+/* glossy sweep that runs across the slab on hover */
+.fq-nav::after, .fq-play::after { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; background: linear-gradient(105deg, transparent 35%, rgba(255, 255, 255, .38) 50%, transparent 65%); transform: translateX(-120%); }
+.fq-nav:hover, .fq-nav:focus-visible {
+  --tx: calc(14 * var(--p)); --ry: 1.5deg; --rz: 0deg; --lift: calc(-3 * var(--p)); --sk: -4deg;
+  filter: brightness(1.12); border-color: rgba(240, 236, 255, .95);
+  background: linear-gradient(100deg, rgba(76, 90, 220, .62) 0%, rgba(116, 100, 220, .48) 58%, rgba(170, 144, 238, .40) 100%);
+  box-shadow: inset 0 calc(2 * var(--p)) 0 rgba(255, 255, 255, .45), 0 calc(14 * var(--p)) calc(26 * var(--p)) rgba(28, 18, 104, .32), 0 0 calc(22 * var(--p)) rgba(150, 140, 255, .45);
+}
+.fq-nav:hover::after, .fq-nav:focus-visible::after, .fq-play:hover::after, .fq-play:focus-visible::after { transform: translateX(120%); transition: transform .7s ease; }
+.fq-nav:active { --tx: calc(6 * var(--p)); --lift: 0px; --ry: 3deg; transition-duration: .12s; }
+.fq-nav:hover .fq-nav-icon svg { transform: scale(1.1) rotate(-4deg); }
+.fq-nav-icon svg { transition: transform .3s cubic-bezier(.2, 1.4, .4, 1); }
+.fq-nav-icon { flex: none; display: grid; place-items: center; width: calc(60 * var(--p)); height: calc(60 * var(--p)); }
+.fq-nav-icon svg { width: 100%; height: 100%; filter: drop-shadow(0 0 calc(7 * var(--p)) rgba(150, 160, 255, .75)); }
+.fq-nav-copy { display: flex; flex-direction: column; min-width: 0; }
+.fq-nav-copy strong { font-size: calc(29 * var(--p)); font-weight: 800; line-height: 1.05; letter-spacing: 0; text-shadow: 0 calc(2 * var(--p)) calc(6 * var(--p)) rgba(40, 24, 130, .45); }
+.fq-nav-copy small { margin-top: calc(3 * var(--p)); font-size: calc(17.5 * var(--p)); font-weight: 600; line-height: 1.15; color: #efe8ff; letter-spacing: 0; text-transform: none; white-space: nowrap; }
+
+.fq-play {
+  --wk: 1.06; z-index: 6; position: absolute; display: flex; align-items: center; cursor: pointer; text-align: left;
+  padding: 0 calc(20 * var(--p)) 0 calc(68 * var(--p)); gap: calc(54 * var(--p));
+  border: calc(3.5 * var(--p)) solid #ffe7ff; border-radius: calc(46 * var(--p)) calc(56 * var(--p)) calc(56 * var(--p)) calc(46 * var(--p)) / calc(46 * var(--p)) calc(56 * var(--p)) calc(56 * var(--p)) calc(46 * var(--p));
+  background: linear-gradient(98deg, #ff3f9f 0%, #f04ccd 42%, #c85bff 78%, #a86bff 100%);
+  box-shadow: 0 0 0 calc(2.5 * var(--p)) rgba(255, 128, 226, .62), 0 0 calc(18 * var(--p)) rgba(255, 98, 214, .9), 0 0 calc(48 * var(--p)) rgba(222, 86, 255, .6), inset 0 0 calc(26 * var(--p)) rgba(255, 255, 255, .34), inset 0 calc(5 * var(--p)) 0 rgba(255, 255, 255, .4);
+  overflow: hidden;
+  --tx: 0px; --ry: 6deg; --rz: -.8deg; --lift: 0px; --sc: 1; --sk: -7deg;
+  transform-origin: left center;
+  transform: perspective(1100px) translate3d(var(--tx), var(--lift), 0) rotateY(var(--ry)) rotateZ(var(--rz)) skewX(var(--sk)) scale(var(--sc));
+  transition: transform .34s cubic-bezier(.2, 1.25, .35, 1), filter .22s ease, box-shadow .22s ease;
+  will-change: transform;
+}
+.fq-play::before { content: ""; position: absolute; inset: calc(5 * var(--p)) calc(10 * var(--p)) 52% calc(18 * var(--p)); border-radius: inherit; background: linear-gradient(rgba(255, 255, 255, .34), rgba(255, 255, 255, 0)); pointer-events: none; }
+.fq-play:hover, .fq-play:focus-visible { --sk: -4deg; --tx: calc(14 * var(--p)); --ry: 1.5deg; --rz: 0deg; --lift: calc(-3 * var(--p)); --sc: 1.018; filter: brightness(1.1); box-shadow: 0 0 0 calc(2.5 * var(--p)) rgba(255, 150, 232, .8), 0 0 calc(26 * var(--p)) rgba(255, 98, 214, 1), 0 0 calc(64 * var(--p)) rgba(222, 86, 255, .75), inset 0 0 calc(26 * var(--p)) rgba(255, 255, 255, .4), inset 0 calc(5 * var(--p)) 0 rgba(255, 255, 255, .5); }
+.fq-play:active { --tx: calc(6 * var(--p)); --sc: .995; --lift: 0px; transition-duration: .12s; }
+.fq-play:hover .fq-play-chev { transform: translateX(calc(6 * var(--p))); }
+.fq-play-chev { transition: transform .3s cubic-bezier(.2, 1.4, .4, 1); }
+.fq-play-tri { flex: none; width: calc(66 * var(--p)); height: calc(66 * var(--p)); filter: drop-shadow(0 0 calc(10 * var(--p)) rgba(255, 255, 255, .55)); }
+.fq-play .fq-nav-copy strong { font-size: calc(42 * var(--p)); font-weight: 800; }
+.fq-play .fq-nav-copy small { font-size: calc(18.6 * var(--p)); font-weight: 600; color: #fff; margin-top: calc(5 * var(--p)); }
+.fq-play-chev { margin-left: auto; width: calc(46 * var(--p)); height: calc(46 * var(--p)); filter: drop-shadow(0 0 calc(6 * var(--p)) rgba(255, 255, 255, .7)); }
+.fq-play-crown { position: absolute; z-index: 7; left: calc(96 / 1672 * 100%); top: calc(258 / 941 * 100%); width: calc(62 / 1672 * 100%); height: auto; transform: rotate(-9deg); filter: drop-shadow(0 0 calc(8 * var(--p)) rgba(255, 213, 80, .8)); pointer-events: none; }
+
+/* ── Player card ─────────────────────────────────────────── */
+.fq-player {
+  z-index: 6; border-radius: calc(72 * var(--p)); border: calc(3 * var(--p)) solid #a9aaff;
+  background: linear-gradient(110deg, rgba(20, 18, 72, .9), rgba(32, 28, 104, .84));
+  box-shadow: 0 0 0 calc(2 * var(--p)) rgba(110, 224, 255, .32), 0 0 calc(22 * var(--p)) rgba(110, 126, 255, .45), inset 0 calc(2 * var(--p)) 0 rgba(255, 255, 255, .2);
+  backdrop-filter: blur(calc(10 * var(--p))); -webkit-backdrop-filter: blur(calc(10 * var(--p)));
+}
+.fq-player-avatar { position: absolute; left: calc(12 * var(--p)); top: calc(12 * var(--p)); width: calc(112 * var(--p)); height: calc(112 * var(--p)); border-radius: 50%; border: calc(4 * var(--p)) solid #fff; box-shadow: 0 0 0 calc(3 * var(--p)) #55c8ff, 0 0 calc(16 * var(--p)) rgba(85, 200, 255, .8); background: radial-gradient(circle at 50% 40%, #fff, #e8e2ff); overflow: hidden; }
+.fq-player-avatar svg { width: 100%; height: 100%; display: block; }
+.fq-player-name { position: absolute; left: calc(141 * var(--p)); top: calc(12 * var(--p)); display: flex; align-items: center; gap: calc(6 * var(--p)); font-size: calc(25 * var(--p)); font-weight: 800; }
+.fq-player-name svg { width: calc(34 * var(--p)); height: calc(26 * var(--p)); filter: drop-shadow(0 0 calc(5 * var(--p)) rgba(255, 213, 80, .7)); }
+.fq-player-lv { position: absolute; left: calc(141 * var(--p)); top: calc(50 * var(--p)); font-size: calc(23 * var(--p)); font-weight: 800; }
+.fq-xp { position: absolute; left: calc(141 * var(--p)); top: calc(85 * var(--p)); width: calc(184 * var(--p)); height: calc(15 * var(--p)); border-radius: 99px; background: #121047; border: calc(2 * var(--p)) solid #6e6bc8; overflow: hidden; }
+.fq-xp i { display: block; width: 40%; height: 100%; border-radius: 99px; background: linear-gradient(90deg, #3ed8ff, #62a8ff); box-shadow: 0 0 calc(10 * var(--p)) #3ed8ff; }
+.fq-xp-text { position: absolute; right: calc(28 * var(--p)); top: calc(102 * var(--p)); font-size: calc(16 * var(--p)); font-weight: 800; letter-spacing: .01em; }
+
+/* ── Best score card ─────────────────────────────────────── */
+.fq-best {
+  z-index: 6; border-radius: calc(30 * var(--p)); border: calc(2.5 * var(--p)) solid #c7b6ff;
+  background: linear-gradient(120deg, rgba(26, 22, 90, .9), rgba(44, 30, 118, .86));
+  box-shadow: 0 0 calc(20 * var(--p)) rgba(150, 110, 255, .4), inset 0 calc(2 * var(--p)) 0 rgba(255, 255, 255, .2);
+  backdrop-filter: blur(calc(10 * var(--p))); -webkit-backdrop-filter: blur(calc(10 * var(--p)));
+}
+.fq-best-title { position: absolute; left: calc(20 * var(--p)); top: calc(14 * var(--p)); display: flex; align-items: center; gap: calc(10 * var(--p)); font-size: calc(23 * var(--p)); font-weight: 800; color: #ffd24a; }
+.fq-best-title svg { width: calc(34 * var(--p)); height: calc(34 * var(--p)); filter: drop-shadow(0 0 calc(6 * var(--p)) rgba(255, 210, 74, .6)); }
+.fq-best-score { position: absolute; right: calc(44 * var(--p)); top: calc(46 * var(--p)); font-size: calc(46 * var(--p)); font-weight: 800; line-height: 1; letter-spacing: .01em; text-shadow: 0 0 calc(14 * var(--p)) rgba(130, 170, 255, .6); }
+.fq-best-combo { position: absolute; left: calc(20 * var(--p)); bottom: calc(14 * var(--p)); display: flex; align-items: center; gap: calc(10 * var(--p)); font-size: calc(22 * var(--p)); font-weight: 800; }
+.fq-best-combo svg { width: calc(34 * var(--p)); height: calc(26 * var(--p)); }
+.fq-bars { position: absolute; right: calc(12 * var(--p)); bottom: calc(8 * var(--p)); display: flex; align-items: flex-end; gap: calc(4 * var(--p)); height: calc(52 * var(--p)); }
+.fq-bars i { display: block; width: calc(8 * var(--p)); border-radius: calc(3 * var(--p)) calc(3 * var(--p)) 0 0; background: linear-gradient(#ffb8f4, #8f7bff); opacity: .85; }
+.fq-bars i:nth-child(1) { height: 22%; } .fq-bars i:nth-child(2) { height: 40%; } .fq-bars i:nth-child(3) { height: 58%; }
+.fq-bars i:nth-child(4) { height: 78%; } .fq-bars i:nth-child(5) { height: 100%; }
+
+/* ── Slogan, notes, sparkles ─────────────────────────────── */
+.fq-slogan {
+  position: absolute; z-index: 4; left: calc(1404 / 1672 * 100%); top: calc(334 / 941 * 100%); width: calc(236 / 1672 * 100%);
+  transform: rotate(-21deg); transform-origin: left top; text-align: left; white-space: nowrap; pointer-events: none;
+  font-family: Caveat, "Segoe Script", "Bradley Hand", "Comic Sans MS", cursive; font-weight: 700; font-size: calc(62 * var(--p)); line-height: .98; color: #fff;
+  text-shadow: 0 0 calc(10 * var(--p)) #ff7de6, 0 0 calc(22 * var(--p)) #b07dff, 0 0 calc(40 * var(--p)) rgba(130, 120, 255, .8);
+}
+.fq-slogan span { display: block; }
+.fq-note { position: absolute; z-index: 3; pointer-events: none; line-height: 1; color: #fff; text-shadow: 0 0 calc(14 * var(--p)) #a98bff, 0 0 calc(5 * var(--p)) rgba(255, 255, 255, .8); animation: fq-note-float 4.2s ease-in-out infinite; }
+@keyframes fq-note-float { 0%, 100% { transform: translateY(0) rotate(var(--r, 0deg)); } 50% { transform: translateY(calc(-9 * var(--p))) rotate(var(--r, 0deg)); } }
+.fq-spark { position: absolute; z-index: 4; pointer-events: none; animation: fq-twinkle 3s ease-in-out infinite; }
+@keyframes fq-twinkle { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: .6; transform: scale(.88); } }
+
+/* ── Cat coach ───────────────────────────────────────────── */
+.fq-coach-banner {
+  position: absolute; z-index: 5; left: 0; top: calc(796 / 941 * 100%); width: calc(556 / 1672 * 100%); height: calc(104 / 941 * 100%);
+  background: linear-gradient(100deg, rgba(166, 98, 238, .66), rgba(226, 124, 230, .5) 70%, rgba(255, 170, 240, .28));
+  clip-path: polygon(0 0, 100% 0, 94% 50%, 100% 100%, 0 100%);
+  border-top: calc(2 * var(--p)) solid rgba(255, 220, 250, .6);
+  box-shadow: inset 0 calc(2 * var(--p)) 0 rgba(255, 255, 255, .35);
+}
+.fq-coach-cat { position: absolute; z-index: 7; left: calc(22 / 1672 * 100%); top: calc(776 / 941 * 100%); width: calc(160 / 1672 * 100%); height: calc(150 / 941 * 100%); filter: drop-shadow(0 0 calc(10 * var(--p)) rgba(255, 140, 230, .7)); }
+.fq-coach-cat svg { width: 100%; height: 100%; display: block; }
+.fq-coach-bubble {
+  position: absolute; z-index: 7; left: calc(192 / 1672 * 100%); top: calc(800 / 941 * 100%); width: calc(334 / 1672 * 100%); height: calc(92 / 941 * 100%);
+  display: flex; flex-direction: column; justify-content: center; padding-left: calc(52 * var(--p)); box-sizing: border-box;
+  background: linear-gradient(110deg, #fffaff, #fadff7 70%, #f6c9ee); border-radius: calc(26 * var(--p)) calc(34 * var(--p)) calc(34 * var(--p)) calc(26 * var(--p));
+  transform: skewX(-9deg); box-shadow: 0 0 calc(18 * var(--p)) rgba(255, 150, 230, .7), inset 0 calc(-4 * var(--p)) 0 rgba(255, 170, 230, .35);
+  color: #2b2f95; font-weight: 800; font-style: italic; font-size: calc(25 * var(--p)); line-height: 1.22; pointer-events: none;
+}
+.fq-coach-bubble span { display: block; transform: skewX(9deg); }
+.fq-coach-bubble b { color: #9b5cf5; font-style: normal; }
+
+/* ── Heart-rate badge keeps its own spot below the player card ── */
+.fq-stage .fq-hr-slot { position: absolute; z-index: 6; right: calc(32 / 1672 * 100%); top: calc(180 / 941 * 100%); }
+
+@media (prefers-reduced-motion: reduce) {
+  .fq-hero, .fq-note, .fq-spark { animation: none !important; }
+  .fq-nav, .fq-play { transition: none; }
+  .fq-nav:hover::after, .fq-play:hover::after { transition: none; }
+  .fq-loading-bar i { transition: none; }
+}
+
+/* ── Portrait / phone: stack the same pieces vertically instead of shrinking the 16:9 stage ── */
+@media (max-aspect-ratio: 1/1) {
+  .fq-menu-layout { overflow-y: auto; overflow-x: hidden; }
+  .fq-stage {
+    position: relative; left: auto; top: auto; transform: none; width: 100%; height: auto; min-height: 100%; aspect-ratio: auto;
+    container-type: inline-size; --p: .165cqw; overflow: visible;
+    display: flex; flex-direction: column; align-items: center; gap: calc(16 * var(--p)); padding: calc(20 * var(--p)) calc(28 * var(--p)) calc(60 * var(--p));
+  }
+  .fq-spark, .fq-note, .fq-slogan, .fq-hero, .fq-coach-banner, .fq-coach-cat, .fq-coach-bubble, .fq-play-crown { display: none; }
+  .fq-logo { order: 1; position: relative; left: auto; top: auto; width: 92%; margin: calc(-30 * var(--p)) 0 calc(-24 * var(--p)); }
+  .fq-player { order: 2; position: relative; left: auto; top: auto; width: calc(353 * var(--p)); height: calc(140 * var(--p)); flex: none; }
+  .fq-stage > nav { order: 3; display: flex; flex-direction: column; gap: calc(14 * var(--p)); width: 100%; }
+  .fq-stage > nav > .fq-abs, .fq-play { position: relative; left: auto; top: auto; width: 100%; height: calc(var(--h) * var(--p) * 1.05); flex: none; }
+  .fq-best { order: 4; position: relative; left: auto; top: auto; width: calc(278 * var(--p)); height: calc(163 * var(--p)); flex: none; }
+  .fq-stage .fq-hr-slot { order: 5; position: relative; right: auto; top: auto; }
+  .fq-nav, .fq-play { --sk: 0deg; }
+  .fq-nav:hover, .fq-play:hover { --tx: 0px; --lift: 0px; --sk: 0deg; }
+}
+
+/* ── Loading screen (matches the static splash in index.html) ── */
+.fq-loading { position: fixed; inset: 0; z-index: 9990; display: grid; place-items: center; color: #fff; font-family: Nunito, system-ui, sans-serif; background: radial-gradient(ellipse at 70% 30%, #6a4fe0 0%, #3a2a9e 45%, #1c1366 100%); transition: opacity .5s ease, visibility .5s ease; }
+.fq-loading-out { opacity: 0; visibility: hidden; pointer-events: none; }
+.fq-loading-inner { text-align: center; }
+.fq-loading-logo { padding-right: .12em; font-size: clamp(40px, 8vw, 84px); font-weight: 800; font-style: italic; letter-spacing: -.04em; background: linear-gradient(100deg, #ff9be8, #fff 45%, #7fe3ff); -webkit-background-clip: text; background-clip: text; color: transparent; filter: drop-shadow(0 0 18px rgba(150, 120, 255, .7)); }
+.fq-loading-logo b { color: transparent; background: linear-gradient(#bff4ff, #38c8ff); -webkit-background-clip: text; background-clip: text; }
+.fq-loading-bar { width: min(56vw, 360px); height: 10px; margin: 22px auto 12px; border-radius: 99px; background: rgba(15, 10, 70, .6); border: 1px solid rgba(200, 190, 255, .5); overflow: hidden; }
+.fq-loading-bar i { display: block; height: 100%; border-radius: 99px; background: linear-gradient(90deg, #ff5fd2, #8f7bff, #38d4ff); box-shadow: 0 0 12px rgba(255, 95, 210, .7); transition: width .25s ease; }
+.fq-loading small { font-size: 13px; font-weight: 700; letter-spacing: .12em; opacity: .85; }
+
+
+/* Fit the menu to the viewport; constrain the decorative slogan inside the right edge. */
+@media (min-aspect-ratio: 1/1) {
+  .fq-stage { left:0; top:0; transform:none; width:100%; height:100%; aspect-ratio:auto; container-type:size; --p:min(.059809cqw,.10627cqh); }
+  .fq-slogan { left:77%; top:32%; width:20%; max-width:20%; white-space:normal; overflow-wrap:anywhere; transform:rotate(-13deg); transform-origin:left top; font-size:clamp(20px,3.05cqw,52px); line-height:.98; }
+  .fq-slogan span { max-width:100%; }
+}
